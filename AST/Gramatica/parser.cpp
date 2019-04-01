@@ -67,6 +67,7 @@
     #include "scanner.h"
     #include <iostream>
     #include <string>
+    #include <QTextEdit>
 
     #include "Arbol/nodo.h"
 
@@ -74,11 +75,18 @@
     extern char *yytext; //lexema actual donde esta el parser (analisis lexico) lo maneja BISON
     extern int nLine;
 
-    //Consola
-    #include <QPlainTextEdit>
 
+    //salida
+    QTextEdit *salida;
+    QTextEdit *dot;
+    void setSalida(QTextEdit* sal, QTextEdit* grafo) {
+        //metodo que asigna el valor al QTextEdit de salida
+        salida=sal;
+        dot=grafo;
+    }
 
-    int yyerror(const char* mens){ 
+    int yyerror(const char* mens){
+        std::cout<<mens<<std::endl; 
         return 0;
     } 
 
@@ -88,7 +96,11 @@
 
 
 
-#line 92 "parser.cpp" /* yacc.c:339  */
+    //Grafo
+    QString cadGrafo="digraph G {\nnodesep=0.3;\nranksep=0.2;\nmargin=0.1;\nnode [shape=circle];\nedge [arrowsize=0.8];\n";
+
+
+#line 104 "parser.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -139,12 +151,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 30 "sintactico.y" /* yacc.c:355  */
+#line 42 "sintactico.y" /* yacc.c:355  */
  
     char TEXT[256];//Caracter!
     struct Nod *NODO;
 
-#line 148 "parser.cpp" /* yacc.c:355  */
+#line 160 "parser.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -161,7 +173,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 165 "parser.cpp" /* yacc.c:358  */
+#line 177 "parser.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -459,7 +471,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    63,    63,    76,    88,   100
+       0,    75,    75,    90,   102,   114
 };
 #endif
 
@@ -1227,21 +1239,23 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 64 "sintactico.y" /* yacc.c:1646  */
+#line 76 "sintactico.y" /* yacc.c:1646  */
     {
             
-            std::cout<<(yyvsp[0].NODO)->Padre->cadenaDot.toStdString()<<std::endl;
-            std::cout<<"Resultado:"<<(yyvsp[0].NODO)->Padre->valor<<std::endl;
+            
+            dot->setText(cadGrafo+(yyvsp[0].NODO)->Padre ->cadenaDot+"}");
 
-            extern QPlainTextEdit* txtGrafo;
-            txtGrafo->setPlainText("Resultado");
+
+            QString result = QString::number((yyvsp[0].NODO)->Padre->valor);
+            salida->append( "Resultado = "+result);
+
         
         }
-#line 1241 "parser.cpp" /* yacc.c:1646  */
+#line 1255 "parser.cpp" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 77 "sintactico.y" /* yacc.c:1646  */
+#line 91 "sintactico.y" /* yacc.c:1646  */
     {
             (yyval.NODO)=new Nod(); 
 
@@ -1253,11 +1267,11 @@ yyreduce:
 
             (yyval.NODO)->Padre=nuevo;
         }
-#line 1257 "parser.cpp" /* yacc.c:1646  */
+#line 1271 "parser.cpp" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 89 "sintactico.y" /* yacc.c:1646  */
+#line 103 "sintactico.y" /* yacc.c:1646  */
     {
             (yyval.NODO)=new Nod(); 
 
@@ -1269,11 +1283,11 @@ yyreduce:
 
             (yyval.NODO)->Padre=nuevo;
         }
-#line 1273 "parser.cpp" /* yacc.c:1646  */
+#line 1287 "parser.cpp" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 101 "sintactico.y" /* yacc.c:1646  */
+#line 115 "sintactico.y" /* yacc.c:1646  */
     {
             (yyval.NODO)=new Nod(); 
 
@@ -1282,11 +1296,11 @@ yyreduce:
 
             (yyval.NODO)->Padre=nuevo;
         }
-#line 1286 "parser.cpp" /* yacc.c:1646  */
+#line 1300 "parser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1290 "parser.cpp" /* yacc.c:1646  */
+#line 1304 "parser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

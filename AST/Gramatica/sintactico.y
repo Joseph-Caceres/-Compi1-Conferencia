@@ -2,6 +2,7 @@
     #include "scanner.h"
     #include <iostream>
     #include <string>
+    #include <QTextEdit>
 
     #include "Arbol/nodo.h"
 
@@ -9,11 +10,18 @@
     extern char *yytext; //lexema actual donde esta el parser (analisis lexico) lo maneja BISON
     extern int nLine;
 
-    //Consola
-    #include <QPlainTextEdit>
 
+    //salida
+    QTextEdit *salida;
+    QTextEdit *dot;
+    void setSalida(QTextEdit* sal, QTextEdit* grafo) {
+        //metodo que asigna el valor al QTextEdit de salida
+        salida=sal;
+        dot=grafo;
+    }
 
-    int yyerror(const char* mens){ 
+    int yyerror(const char* mens){
+        std::cout<<mens<<std::endl; 
         return 0;
     } 
 
@@ -21,6 +29,10 @@
      nodo *Padre;
     };
 
+
+
+    //Grafo
+    QString cadGrafo="digraph G {\nnodesep=0.3;\nranksep=0.2;\nmargin=0.1;\nnode [shape=circle];\nedge [arrowsize=0.8];\n";
 
 %}
 
@@ -63,8 +75,12 @@ S:
         E
         {
             
-            std::cout<<$1->Padre->cadenaDot.toStdString()<<std::endl;
-            std::cout<<"Resultado:"<<$1->Padre->valor<<std::endl;
+            
+            dot->setText(cadGrafo+$1->Padre ->cadenaDot+"}");
+
+
+            QString result = QString::number($1->Padre->valor);
+            salida->append( "Resultado = "+result);
 
         
         }
