@@ -42,7 +42,8 @@ void principal::on_btnAnalizar_clicked()
     }
 
 
-    //setSalida(ui->txtConsola);//SE ASIGNA EL PUNTERO DE LA SALIDA PARA SER USADA POR BISON
+
+    setSalida(ui->txtConsola, ui->txtGrafo);//SE ASIGNA EL PUNTERO DE LA SALIDA PARA SER USADA POR BISON
 
     const char* x = "temp.txt";
     FILE* input = fopen(x, "r");
@@ -52,5 +53,11 @@ void principal::on_btnAnalizar_clicked()
     QMessageBox msgBox;
     msgBox.setText("FIN DEL ANALISIS");
     msgBox.exec();
+
+}
+
+void principal::on_pushButton_clicked()
+{
+    std::cout<<"hola mundo"<<std::endl;
 
 }

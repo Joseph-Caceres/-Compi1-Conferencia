@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 #include <QTextEdit>
-extern void setSalida(QTextEdit* sal); //METODO CREADO EN EL ANALIZADOR SINTACTICO
+extern void setSalida(QTextEdit* sal, QTextEdit* grafo); //METODO CREADO EN EL ANALIZADOR SINTACTICO
 
 namespace Ui {
 class principal;
